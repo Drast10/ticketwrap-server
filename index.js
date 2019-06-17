@@ -1,9 +1,12 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const cors = require('cors')
-const userRouter = require('./users/routes')
-const eventRouter = require('./events/routes')
-const authRouter = require('./auth/routes')
+const userRouter = require('./controllers/users')
+const eventRouter = require('./controllers/events')
+const authRouter = require('./controllers/auth')
+const ticketRouter = require('./controllers/tickets')
+const commentsRouter = require('./controllers/comments')
+
 
 const app = express()
 const port = process.env.PORT || 4000
@@ -15,4 +18,9 @@ const port = process.env.PORT || 4000
   .use(userRouter)
   .use(eventRouter)
   .use(authRouter)
-  .listen(port, ()=>console.log(`Listening on port ${port}`))
+  .use(ticketRouter)
+  .use(commentsRouter)
+  
+
+  
+  app.listen(port, ()=>console.log(`Listening on port ${port}`))

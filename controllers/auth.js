@@ -1,9 +1,10 @@
 const { Router } = require('express')
-const User = require('../users/model')
+//const User = require('../models/users')
+const models = require('../models');
 const bcrypt = require('bcrypt')
-const { toJWT } = require('./jwt')
+const { toJWT } = require('../auth/jwt')
 const router = new Router()
-
+const User =models.users;
 // define endpoints here
 router.post('/login', (req, res, next) => {
   const email = req.body.email
@@ -38,7 +39,8 @@ router.post('/login', (req, res, next) => {
           // 3. if the password is correct, return a JWT with the userId of the user (user.id)
           res.send({
             jwt: toJWT({ userId: entity.id }),
-            userid: entity.id
+            userid: entity.id,
+            userName: entity.name
           })
         }
         else {

@@ -1,13 +1,17 @@
-const User = require('../users/model')
+//const User = require('../users/model')
 const  {toData} = require('./jwt')
+const models = require('../models');
 
+const User =models.users;
 function auth(req, res, next) {
   const auth = req.headers.authorization && req.headers.authorization.split(' ')
   if (auth && auth[0] === 'Bearer' && auth[1]) {
     try {
       const data = toData(auth[1])
+      console.log("auth check")
+      console.log("auth check"+data)
       User
-        .findById(data.userId)
+        .findByPk(data.userId)
         .then(user => {
           if (!user) return next('User does not exist')
 
@@ -29,4 +33,15 @@ function auth(req, res, next) {
   }
 }
 
-module.exports = auth
+function userId(req, res, next) {
+  const auth = req.headers.authorization && req.headers.authorization.split(' ')
+  if (auth && auth[0] === 'Bearer' && auth[1]) {
+    
+      const data = toData(auth[1])
+      console.log("auth check")
+      console.log("auth check"+data.userId)
+      return data.userId;
+     
+  }
+}
+module.exports = {auth,userId}

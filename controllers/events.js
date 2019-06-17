@@ -1,21 +1,38 @@
 const {Router} = require('express')
-const Event = require('./model')
-
+const models = require('../models');
+const {auth,userId} = require('../auth/middleware');
 const router = new Router()
+const Event =models.events;
+
 
 //all records
-router.get('/events',(req,res,next)=>{
-  Event
-    .findAll()
-    .then(events =>{
-      res.send({events})
+
+router.get('/events',auth,(req,res,next)=>{
+  let user=userId(req,res,next);
+  console.log(user)
+  const limit = req.query.limit || 9
+  const offset = req.query.offset || 0
+  Event.count()
+    .then(total=>{
+      Event
+      .findAll({limit, offset})
+      .then(events =>{
+        let page = Math.ceil(total/limit);
+        res.send({events,total,page})
+    })
+    .catch(error => next(error))
+   
     })
     .catch(error=>next(error)); 
 })
 
 
-router.post('/events', (req,res, next)=>{
+router.post('/events', auth,(req,res, next)=>{
+  let user=userId(req,res,next);
+  console.log(user)
+  console.log(user.user_id)
   const event = req.body
+  event.user_id=user.user_id;
   console.log(event)
   Event
     .create(event)

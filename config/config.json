@@ -1,0 +1,25 @@
+{
+  "development": {
+    "username": "ticketWrap",
+    "password": "LetMeIn",
+    "database": "ticketWrap",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
+  },
+  "test": {
+    "username": "ticketWrap",
+    "password": "LetMeIn",
+    "database": "ticketWrap",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "operatorsAliases": false
+  },
+  "production": {
+    "username": "ticketWrap",
+    "password": "LetMeIn",
+    "database": "ticketWrap",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "operatorsAliases": false
+  }
+}
