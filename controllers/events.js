@@ -9,7 +9,7 @@ const Event =models.events;
 
 router.get('/events',auth,(req,res,next)=>{
   let user=userId(req,res,next);
-  console.log(user)
+  console.log('hi',user)
   const limit = req.query.limit || 9
   const offset = req.query.offset || 0
   Event.count()
@@ -30,9 +30,8 @@ router.get('/events',auth,(req,res,next)=>{
 router.post('/events', auth,(req,res, next)=>{
   let user=userId(req,res,next);
   console.log(user)
-  console.log(user.user_id)
   const event = req.body
-  event.user_id=user.user_id;
+  event.user_id=user;
   console.log(event)
   Event
     .create(event)
@@ -42,25 +41,6 @@ router.post('/events', auth,(req,res, next)=>{
     .catch(error=>next(error))
 })
 
-// router.put('/events/:id',(req,res,next)=>{
-//   const eventId = Number(req.params.id)
-//   const update = req.body
-
-//   Event
-//     .findByPk(eventId)
-//     .then(event=>{
-//       return event.update(update)
-//     })
-//     .then(final=>{
-//       res.send(final)
-//     })
-//     .catch(error=>{
-//       res.staus(500).send({
-//         message:'something went wrong'
-//         .next(error)
-//       })
-//     })
-// })
 
 router.delete('/events/:id', (req, res) => {
   const eventId = Number(req.params.id)
